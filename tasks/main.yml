@@ -24,7 +24,7 @@
         name: unzip
       become: yes
       when: download_packer_archive.changed == True
-        
+
     - name: Unarchive packer
       unarchive:
         src: "{{ packer_install_directory }}/packer_{{ packer_version }}/packer_{{ packer_version }}_linux_{{ ansible_architecture|regex_replace('x86_64','amd64') }}.zip"

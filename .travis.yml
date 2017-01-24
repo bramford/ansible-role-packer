@@ -26,7 +26,7 @@ script:
   # Basic role syntax check
   - ansible-playbook -vvvv tests/test.yml -i 'localhost,' --syntax-check
   # Lint check
-  - ansible-lint .
+  - ansible-lint -x ANSIBLE0016 .
   # Run role
   - ansible-playbook -vvvv tests/test.yml -i 'localhost,' -D
 

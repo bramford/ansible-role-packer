@@ -20,15 +20,13 @@ install:
   - ansible --version
 
   # Create ansible.cfg with correct roles_path
-  - printf '[defaults]\nroles_path=../' >ansible.cfg
+  - printf '[defaults]\nroles_path=../' > ansible.cfg
 
 script:
   # Basic role syntax check
   - ansible-playbook -vvvv tests/test.yml -i 'localhost,' --syntax-check
-  # Lint check
+  # Lint check (ignore handler errors)
   - ansible-lint -x ANSIBLE0016 .
-  # Run role
-  - ansible-playbook -vvvv tests/test.yml -i 'localhost,' -D
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

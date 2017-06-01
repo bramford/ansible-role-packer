@@ -3,42 +3,35 @@
   stat:
     path: "{{ packer_install_directory }}/packer_{{ packer_version }}/packer"
   register: check_existing_packer
-  become: yes
 
 - block:
     - name: Create packer version directory
       file:
         name: "{{ packer_install_directory }}/packer_{{ packer_version }}"
         state: directory
-      become: yes
 
     - name: Download packer archive
       get_url:
         url: "https://releases.hashicorp.com/packer/{{ packer_version }}/packer_{{ packer_version }}_linux_{{ ansible_architecture|regex_replace('x86_64','amd64') }}.zip"
         dest: "{{ packer_install_directory }}/packer_{{ packer_version }}/"
       register: download_packer_archive
-      become: yes
 
     - name: Install unzip
       package:
         name: unzip
-      become: yes
-      when: download_packer_archive.changed == True
+      when: download_packer_archive|changed
 
     - name: Unarchive packer
       unarchive:
         src: "{{ packer_install_directory }}/packer_{{ packer_version }}/packer_{{ packer_version }}_linux_{{ ansible_architecture|regex_replace('x86_64','amd64') }}.zip"
         dest: "{{ packer_install_directory }}/packer_{{ packer_version }}/"
         remote_src: yes
-      become: yes
-      when: download_packer_archive.changed == True
+      when: download_packer_archive|changed
 
     - name: Remove packer archive
       file:
         path: "{{ packer_install_directory }}/packer_{{ packer_version }}/packer_{{ packer_version }}_linux_{{ ansible_architecture|regex_replace('x86_64','amd64') }}.zip"
         state: absent
-      become: yes
-
   when: check_existing_packer.stat.exists == False
 
 - name: Symlink packer to correct version
@@ -50,4 +43,3 @@
     mode: 0777
     owner: root
     group: root
-  become: yes

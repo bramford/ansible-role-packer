@@ -52,7 +52,5 @@
     src: "{{ packer_install_directory }}/packer_{{ packer_version }}/packer"
     state: link
     force: yes
-    mode: 0645
-    owner: root
-    group: root
+    mode: 0655
   when: ansible_os_family != "RedHat"

@@ -4,6 +4,10 @@
     path: "{{ packer_install_directory }}/packer_{{ packer_version }}/packer"
   register: check_existing_packer
 
+- name: Install unzip
+  package:
+    name: unzip
+
 - block:
     - name: Create packer version directory
       file:
@@ -14,30 +18,23 @@
       get_url:
         url: "https://releases.hashicorp.com/packer/{{ packer_version }}/packer_{{ packer_version }}_linux_{{ ansible_architecture|regex_replace('x86_64','amd64') }}.zip"
         dest: "{{ packer_install_directory }}/packer_{{ packer_version }}/"
-      register: download_packer_archive
-
-    - name: Install unzip
-      package:
-        name: unzip
-      when: download_packer_archive|changed
 
     - name: Unarchive packer
       unarchive:
         src: "{{ packer_install_directory }}/packer_{{ packer_version }}/packer_{{ packer_version }}_linux_{{ ansible_architecture|regex_replace('x86_64','amd64') }}.zip"
         dest: "{{ packer_install_directory }}/packer_{{ packer_version }}/"
         remote_src: yes
-      when: download_packer_archive|changed
 
     - name: Remove packer archive
       file:
         path: "{{ packer_install_directory }}/packer_{{ packer_version }}/packer_{{ packer_version }}_linux_{{ ansible_architecture|regex_replace('x86_64','amd64') }}.zip"
         state: absent
-    
+
     - name: Change packer mode to 655
       file:
         path: "{{ packer_install_directory }}"
         mode: 0655
-        recurse: yes      
+        recurse: yes
   when: check_existing_packer.stat.exists == False
 
 - name: Symlink packer to correct version on RHEL/CentOS

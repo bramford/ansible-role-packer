@@ -40,6 +40,6 @@
     src: "{{ packer_install_directory }}/packer_{{ packer_version }}/packer"
     state: link
     force: yes
-    mode: 0777
+    mode: 0645
     owner: root
     group: root

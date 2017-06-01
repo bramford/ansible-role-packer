@@ -32,7 +32,22 @@
       file:
         path: "{{ packer_install_directory }}/packer_{{ packer_version }}/packer_{{ packer_version }}_linux_{{ ansible_architecture|regex_replace('x86_64','amd64') }}.zip"
         state: absent
+    
+    - name: Change packer mode to 655
+      file:
+        path: "{{ packer_install_directory }}"
+        mode: 0655
+        recurse: yes      
   when: check_existing_packer.stat.exists == False
+
+- name: Symlink packer to correct version on RHEL/CentOS
+  file:
+    path: "{{ packer_install_directory }}/packer.io"
+    src: "{{ packer_install_directory }}/packer_{{ packer_version }}/packer"
+    state: link
+    force: yes
+    mode: 0655
+  when: ansible_os_family == "RedHat"
 
 - name: Symlink packer to correct version
   file:
@@ -43,3 +58,4 @@
     mode: 0645
     owner: root
     group: root
+  when: ansible_os_family != "RedHat"

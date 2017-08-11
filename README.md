@@ -22,7 +22,7 @@ See `./defaults/main.yml` for configurable variables and their defaults
     - name: Example play
       hosts: all
       roles:
-        - { packer }
+        - packer
 
 ## Example playbook (with some optional vars set)
 
@@ -30,9 +30,8 @@ See `./defaults/main.yml` for configurable variables and their defaults
     - name: Example play with optional vars set
       hosts: all
       roles:
-        - { packer,
-            packer_version: 0.10.2,
-            packer_install_directory: "/opt/packer"
+        - { role: packer,
+            packer_version: 0.12.2
           }
 
 ## Add as a submodule to your playbook repo

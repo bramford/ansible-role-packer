@@ -1,1 +1,5 @@
 *.retry
+venv/*
+*.pyc
+molecule/default/tests/__pycache__/*
+molecule/default/.molecule/*

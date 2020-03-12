@@ -36,7 +36,7 @@ pathspec==0.5.5
 pbr==3.0.1
 pexpect==4.2.1
 poyo==0.4.1
-psutil==5.2.2
+psutil==5.6.6
 ptyprocess==0.5.2
 py==1.4.34
 pyasn1==0.3.7

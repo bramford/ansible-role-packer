@@ -47,7 +47,7 @@ PyNaCl==1.1.2
 pytest==3.2.3
 python-dateutil==2.6.1
 python-gilt==1.1.0
-PyYAML==3.12
+PyYAML==5.4
 requests==2.18.4
 sh==1.12.14
 six==1.11.0
